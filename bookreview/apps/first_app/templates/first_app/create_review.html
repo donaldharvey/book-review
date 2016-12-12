@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{% if not review %}Create a book review{% else %}Editing your book review{% endif %}</h1>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% if not review %}Create review{% else %}Save changes{% endif %}</button>
+</form>
+
+{% endblock %}

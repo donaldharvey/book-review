@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.core.urlresolvers import reverse
 # Create your models here.
 
 class Book(models.Model):
@@ -13,10 +14,20 @@ class Book(models.Model):
 		return self.title
 
 class BookReview(models.Model):
-	author = models.ForeignKey('auth.User', related_name='reviews') #how do you create a foreign key?
+	author = models.ForeignKey('auth.User', related_name='reviews')
+
+	book = models.ForeignKey('Book', related_name='reviews')
+	title = models.CharField(max_length=100)
+	content = models.TextField() # TODO: use markdown here :)
+
+	creation_time = models.DateTimeField(auto_now_add=True)
+	last_edit_time = models.DateTimeField(auto_now=True)
+
+	def get_absolute_url(self):
+		return reverse('review', args=(self.id,))
 
 class Comment(models.Model):
 	author = models.ForeignKey('auth.User', related_name='comments')
-	review = models.ForeignKey('Review', related_name='comments')
+	review = models.ForeignKey('BookReview', related_name='comments')
 	timestamp = models.DateTimeField(auto_now_add=True)	
 	text = models.TextField()
