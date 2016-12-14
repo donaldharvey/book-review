@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.core.urlresolvers import reverse
+from django.core.validators import MinValueValidator, MaxValueValidator
 # Create your models here.
 
 class Book(models.Model):
@@ -19,6 +20,8 @@ class BookReview(models.Model):
 	book = models.ForeignKey('Book', related_name='reviews')
 	title = models.CharField(max_length=100)
 	content = models.TextField() # TODO: use markdown here :)
+
+	rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
 
 	creation_time = models.DateTimeField(auto_now_add=True)
 	last_edit_time = models.DateTimeField(auto_now=True)

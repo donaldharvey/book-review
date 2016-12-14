@@ -2,10 +2,11 @@
 
 {% block content %}
 <h1>{{ review.title }}</h1>
+<p>Rating: <strong>{{ review.rating }} star{{ review.rating|pluralize }}</strong></p>
 <div class="content">
     {{ review.content }}
 </div>
-<p>posted on {{ review.creation_time }}</p>
+<p>posted on {{ review.creation_time|date:"D d M Y (W)" }}</p>
 <a href="{% url 'edit_review' review.id %}">Edit me</a>
 <a href="{% url 'delete_review' review.id %}">Delete me</a>
 {% endblock %}
